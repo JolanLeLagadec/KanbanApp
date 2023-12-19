@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button"
-import { SignOutButton, SignedOut } from "@clerk/nextjs"
+import { SignOutButton } from "@clerk/nextjs"
 
 import Link from "next/link"
 
@@ -10,7 +10,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-white to-blueGrayish">
       <header className="px-4 lg:px-6 h-14 flex items-center">
           <div className="flex gap-2 items-center justify-center h-fit">
-              <div className="flex justify-center items-center gap-1  ">
+              <div className="flex justify-center items-center gap-1">
                 <div className="w-2 h-7 rounded-md bg-mainPurple"></div>
                 <div className="w-2 h-7 rounded-md bg-secondPurple"></div>
                 <div className="w-2 h-7 rounded-md bg-blueGrayish"></div>
@@ -52,7 +52,7 @@ export default function Home() {
                 </p>
               </div>   
               
-              <Link href="/sign-in"><Button size='lg' className="bg-mainPurple hover:bg-secondPurple text-white text-lg ">Get started</Button></Link>
+              <Link href="/home"><Button size='lg' className="bg-mainPurple hover:bg-secondPurple text-white text-lg ">Get started</Button></Link>
             </div>
           </div>
         </section>
