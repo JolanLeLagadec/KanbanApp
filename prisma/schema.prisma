@@ -10,10 +10,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Boards {
+model Board {
+  id     Int    @id @default(autoincrement())
+  userId Int
+  name  String
 
-  
-  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  column Columns[]
+  Task   Task[]
 }
 
+model Columns {
+  id      Int  @id @default(autoincrement())
+  color   String
+  name    String
+  boardId Int
 
+  Board Board? @relation(fields: [boardId], references: [id])
+  task  Task[]
+}
+
+model Task {
+  id          Int    @id @default(autoincrement())
+  boardId     Int
+  name        String
+  description String
+  columnId    Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subtask Subtask[]
+  Columns Columns  @relation(fields: [columnId], references: [id])
+
+  Board Board @relation(fields: [boardId], references: [id])
+}
+
+model Subtask {
+  id          Int    @id @default(autoincrement())
+  taskId      Int
+  name        String
+  description String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task Task @relation(fields: [taskId], references: [id])
+}
