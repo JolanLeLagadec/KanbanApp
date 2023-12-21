@@ -8,6 +8,7 @@ import { Switch } from '../ui/switch'
 import logoDark from '@/starter-code/assets/icon-dark-theme.svg'
 import logoLight from '@/starter-code/assets/icon-light-theme.svg'
 import { useTheme } from "next-themes"
+import ButtonCreateNewBoard from '../ButtonCreateNewBoard'
 
 export default function MenuBoardsMobile() {
 
@@ -45,6 +46,7 @@ export default function MenuBoardsMobile() {
           />
           <h1>Platform Launch</h1>
         </button>
+        <ButtonCreateNewBoard />
         <div className='bg-lightGray px-6 py-3 mt-4 flex justify-center items-center m-auto rounded-lg dark:bg-neutral-900'>
           <div className='flex justify-center items-center w-full gap-7'>
             <Image
@@ -63,6 +65,7 @@ export default function MenuBoardsMobile() {
 
           </div>
         </div>
+        
       </div>
     </div>
   )

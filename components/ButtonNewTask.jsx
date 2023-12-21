@@ -1,13 +1,19 @@
+'use client'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import  iconAdd  from '@/starter-code/assets/icon-add-task-mobile.svg'
 import Image from 'next/image'
+import useModal from '@/hooks/useModal'
 
 export default function ButtonAddNewTaskAndMenu() {
+
+  const modal = useModal()
+  
     
   return (
     <div className='flex justify-center items-center gap-5'>
-        <Button className="rounded-full bg-mainPurple px-5 lg:p-4 flex items-center justify-center gap-3 hover:bg-secondPurple">
+        <Button
+         className="rounded-full bg-mainPurple px-5 lg:p-4 flex items-center justify-center gap-3 hover:bg-secondPurple">
            <Image
            src={iconAdd}
            width={15}

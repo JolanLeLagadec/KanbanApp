@@ -1,4 +1,7 @@
-export const GET = (req) => {
+
+export const GET = async () => {
+
+
 
     
 }
