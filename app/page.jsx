@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button"
-import { SignOutButton } from "@clerk/nextjs"
+
 
 import Link from "next/link"
 
@@ -34,8 +34,6 @@ export default function Home() {
             Contact
           </Link>
           <div>
-    
-      <SignOutButton />
     </div>
         </nav>
       </header>
@@ -52,7 +50,7 @@ export default function Home() {
                 </p>
               </div>   
               
-              <Link href="/home"><Button size='lg' className="bg-mainPurple hover:bg-secondPurple text-white text-lg ">Get started</Button></Link>
+              <Link href="/boards"><Button size='lg' className="bg-mainPurple hover:bg-secondPurple text-white text-lg ">Get started</Button></Link>
             </div>
           </div>
         </section>

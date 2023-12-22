@@ -12,23 +12,23 @@ datasource db {
 
 model Board {
   id     Int    @id @default(autoincrement())
-  userId Int
-  name  String
+  userId String
+  name   String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   column Columns[]
-  Task   Task[]
+  task   Task[]
 }
 
 model Columns {
-  id      Int  @id @default(autoincrement())
-  color   String
+  id      Int    @id @default(autoincrement())
+  color   String?
   name    String
   boardId Int
 
-  Board Board? @relation(fields: [boardId], references: [id])
+  board Board? @relation(fields: [boardId], references: [id])
   task  Task[]
 }
 
@@ -43,9 +43,9 @@ model Task {
   updatedAt DateTime @updatedAt
 
   subtask Subtask[]
-  Columns Columns  @relation(fields: [columnId], references: [id])
+  column Columns   @relation(fields: [columnId], references: [id])
 
-  Board Board @relation(fields: [boardId], references: [id])
+  board Board @relation(fields: [boardId], references: [id])
 }
 
 model Subtask {

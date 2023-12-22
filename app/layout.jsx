@@ -2,12 +2,13 @@ import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/layout/ThemeProvider'
 import { ClerkProvider } from '@clerk/nextjs'
+import Provider from '@/util/Provider'
 
 const inter = Plus_Jakarta_Sans({ subsets: ['latin'] })
-
 export const metadata = {
   title: 'Kanban',
 }
+
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
@@ -17,7 +18,9 @@ export default function RootLayout({ children }) {
           defaultTheme="system"
         >
           <body className={inter.className}>
-           {children}
+            <Provider>
+              {children}
+            </Provider>
           </body>
         </ThemeProvider>
       </html>

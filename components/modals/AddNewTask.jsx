@@ -23,9 +23,6 @@ export default function AddNewTask() {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     
-
-
-
     const addSubtask = () => {
         setSubtask([...subTasks, ''])
     }
@@ -44,7 +41,7 @@ export default function AddNewTask() {
 
     const body = (
         <>
-            <div className='flex flex-col gap-1 w-full'>
+            <div className='flex flex-col gap-1 w-full '>
                 <div className='flex flex-col gap-1 w-full'>
                     <label className='text-neutral-400 dark:text-white'>Title</label>
                     <Input
@@ -54,7 +51,6 @@ export default function AddNewTask() {
                         className="dark:bg-neutral-700 text-black border-gray-300  focus:ring-mainPurple dark:border-neutral-600 dark:focus-visible:ring-offset-0 dark:text-white "
                     />
                 </div>
-
                 <div className='flex flex-col gap-1 w-full'>
                     <label className='text-neutral-400 mt-4 dark:text-white'>Description</label>
                     <Textarea
