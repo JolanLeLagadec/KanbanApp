@@ -19,7 +19,7 @@ model Board {
   updatedAt DateTime @updatedAt
 
   column Columns[]
-  task   Task[]
+ 
 }
 
 model Columns {
@@ -28,13 +28,12 @@ model Columns {
   name    String
   boardId Int
 
-  board Board? @relation(fields: [boardId], references: [id])
+  board Board? @relation(fields: [boardId], references: [id], onDelete: Cascade)
   task  Task[]
 }
 
 model Task {
   id          Int    @id @default(autoincrement())
-  boardId     Int
   name        String
   description String
   columnId    Int
@@ -45,7 +44,6 @@ model Task {
   subtask Subtask[]
   column Columns   @relation(fields: [columnId], references: [id])
 
-  board Board @relation(fields: [boardId], references: [id])
 }
 
 model Subtask {

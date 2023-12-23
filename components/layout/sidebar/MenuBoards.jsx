@@ -1,30 +1,50 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
-import  iconBoard  from '@/starter-code/assets/icon-board.svg'
+import iconBoard from '@/starter-code/assets/icon-board.svg'
 import Image from 'next/image'
 import ButtonCreateNewBoard from '@/components/ButtonCreateNewBoard'
+import Link from 'next/link'
+import { getBoards } from '@/request/boards'
 
 export default function MenuBoards() {
 
-  const [isActive, setIsActive] = useState(false)
+  const [isActive, setIsActive] = useState(null)
+  const [boards, setBoards] = useState(null)
+
+  useEffect(() => {
+    const handleBoards = async () => {
+     const boards = await getBoards()
+     setBoards(boards)
+    }
+    handleBoards()
+  }, [])
+  console.log(boards)
 
   return (
     <div className='w-full'>
       <h1 className='text-md text-neutral-400 tracking-widest uppercase pl-6'>all boards</h1>
       <div className='flex flex-col items-start gap-3 text-white mt-7'>
-        <button
-          onClick={() => setIsActive(!isActive)}
-         className={`${isActive ? 'bg-mainPurple text-white' : 'text-neutral-400'}  rounded-r-full pl-6 py-3 w-[95%] font-semibold flex gap-4 items-center dark:hover:bg-neutral-100 transition-colors hover:text-mainPurple hover:bg-neutral-200 `}>
-        <Image
-          src={iconBoard}
-          width={20}
-          height={15}
-          alt='iconboard'
-          className=''
-           />
-        <h1>Platform Launch</h1>
-        </button>   
+        {
+          boards?.map((board, index) => (
+            <Link
+              href={`/boards/${board.id}`}
+              key={board.id}
+              onClick={() => setIsActive(board.id)}
+              className={`${isActive === board.id ? 'bg-mainPurple text-white' : 'text-neutral-400'}  rounded-r-full pl-6 py-3 w-[95%] font-semibold flex gap-4 items-center dark:hover:bg-neutral-100 transition-colors hover:text-mainPurple hover:bg-neutral-200 `}>
+              <Image
+                src={iconBoard}
+                width={20}
+                height={15}
+                alt='iconboard'
+                className=''
+              />
+              <h1>{board.name}</h1>
+            </Link>
+
+          ))
+        }
+
         <ButtonCreateNewBoard />
       </div>
     </div>

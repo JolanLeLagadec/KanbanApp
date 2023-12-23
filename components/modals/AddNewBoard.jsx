@@ -5,6 +5,8 @@ import Modal from '../Modal'
 import { Button } from '../ui/button'
 import { Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import useModal from '@/hooks/useModal'
+import { toast } from 'sonner'
 
 
 export default function AddNewBoard() {
@@ -15,8 +17,8 @@ export default function AddNewBoard() {
     const [isLoading, setIsLoading] = useState(false)
 
     const router = useRouter()
+    const modal = useModal()
     
-
     const createNewBoard = async () => {
         setIsLoading(true)
         const data = {name, columns}
@@ -36,7 +38,7 @@ export default function AddNewBoard() {
             return
         }
         try {
-            const res = await fetch('api/boards',
+            const res = await fetch('/api/boards',
            {
                 method: 'POST',
                 headers: {
@@ -44,10 +46,13 @@ export default function AddNewBoard() {
                 },
                 body: JSON.stringify(data),      
             })
-            console.log(res)
-            setIsLoading(false)
+            console.log(res)  
             const board = await res.json()
-            router.push({`/boards/${board.id}`})
+            router.push(`/boards/${board.id}`)
+            modal.onClose('createBoard')
+            toast.success(`The board has been successfully created`)
+            setIsLoading(false)
+
         }catch(e){
             setIsLoading(false)
             console.log(e)

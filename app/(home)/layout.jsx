@@ -14,8 +14,6 @@ export default function LayoutBoards({ children }) {
         <Layout>
           {children}
         </Layout>
-     
-     
     </div>
   )
 }

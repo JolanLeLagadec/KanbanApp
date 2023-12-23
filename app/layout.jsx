@@ -3,6 +3,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/layout/ThemeProvider'
 import { ClerkProvider } from '@clerk/nextjs'
 import Provider from '@/util/Provider'
+import { Toaster } from 'sonner'
 
 const inter = Plus_Jakarta_Sans({ subsets: ['latin'] })
 export const metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
             <Provider>
               {children}
             </Provider>
+            <Toaster />
           </body>
         </ThemeProvider>
       </html>
