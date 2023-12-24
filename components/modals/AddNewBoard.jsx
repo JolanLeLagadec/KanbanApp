@@ -46,7 +46,7 @@ export default function AddNewBoard() {
                 },
                 body: JSON.stringify(data),      
             })
-            console.log(res)  
+           
             const board = await res.json()
             router.push(`/boards/${board.id}`)
             modal.onClose('createBoard')

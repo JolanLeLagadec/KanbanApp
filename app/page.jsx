@@ -1,10 +1,12 @@
 
+import { getBoards } from "@/actions/boards"
 import { Button } from "@/components/ui/button"
 
 
 import Link from "next/link"
 
-export default function Home() {
+export default async function Home() {
+
   return (
     
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-white to-blueGrayish">
@@ -50,7 +52,7 @@ export default function Home() {
                 </p>
               </div>   
               
-              <Link href="/boards"><Button size='lg' className="bg-mainPurple hover:bg-secondPurple text-white text-lg ">Get started</Button></Link>
+              <Link href='/boards'><Button size='lg' className="bg-mainPurple hover:bg-secondPurple text-white text-lg ">Get started</Button></Link>
             </div>
           </div>
         </section>

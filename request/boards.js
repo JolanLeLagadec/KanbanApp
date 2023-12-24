@@ -1,4 +1,5 @@
-export const getBoards = async () => {
+ export const getBoards = async () => {
+   
     const response = await fetch('/api/boards', {
         headers: {
             'Content-type': 'application/json'
@@ -9,7 +10,7 @@ export const getBoards = async () => {
 }
 
 export const getBoard = async (id) => {
-    console.log('dans getBoard')
+   
     const response = await fetch(`/api/boards/${id}`, {
         headers: {
             'Content-type': 'application/json'

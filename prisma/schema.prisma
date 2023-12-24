@@ -35,7 +35,7 @@ model Columns {
 model Task {
   id          Int    @id @default(autoincrement())
   name        String
-  description String
+  description String?
   columnId    Int
 
   createdAt DateTime @default(now())
@@ -50,7 +50,7 @@ model Subtask {
   id          Int    @id @default(autoincrement())
   taskId      Int
   name        String
-  description String
+  description String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

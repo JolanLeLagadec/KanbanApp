@@ -19,7 +19,7 @@ export default function MenuBoards() {
     }
     handleBoards()
   }, [])
-  console.log(boards)
+ 
 
   return (
     <div className='w-full'>

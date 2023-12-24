@@ -34,9 +34,7 @@ export default function MenuBoardsMobile() {
     } else {
       setTheme('light')
     }
-
   }
-
   if (!mobileMenu.isOpen) {
     return null;
   }

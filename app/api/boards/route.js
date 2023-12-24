@@ -13,7 +13,6 @@ export async function POST(req) {
     if (!name || name === "") {
       throw new Error("Vous devez spécifier un nom de board");
     }
-
     const newBoard = await db.board.create({
       data: {
         userId: user.id,

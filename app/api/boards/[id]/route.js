@@ -12,7 +12,7 @@ export async function GET(req, { params }) {
         id: { boardId },
       },
     });
-    console.log(board);
+  
     return Response.json(board);
   } catch (e) {
     return Response.json({ error: e.message });

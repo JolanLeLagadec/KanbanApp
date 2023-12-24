@@ -10,7 +10,7 @@ export default function Modal({ body, onSubmit, header, labelButton, modalName, 
   const modal = useModal()
 
   const handleSubmit = () => {
-    console.log('bonjour')
+  
     onSubmit()
   }
 
