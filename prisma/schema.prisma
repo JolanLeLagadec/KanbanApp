@@ -19,11 +19,10 @@ model Board {
   updatedAt DateTime @updatedAt
 
   column Columns[]
- 
 }
 
 model Columns {
-  id      Int    @id @default(autoincrement())
+  id      Int     @id @default(autoincrement())
   color   String?
   name    String
   boardId Int
@@ -33,7 +32,7 @@ model Columns {
 }
 
 model Task {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
   description String?
   columnId    Int
@@ -42,18 +41,18 @@ model Task {
   updatedAt DateTime @updatedAt
 
   subtask Subtask[]
-  column Columns   @relation(fields: [columnId], references: [id])
-
+  column  Columns   @relation(fields: [columnId], references: [id])
 }
 
 model Subtask {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   taskId      Int
   name        String
   description String?
+  done        Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  task Task @relation(fields: [taskId], references: [id])
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
 }

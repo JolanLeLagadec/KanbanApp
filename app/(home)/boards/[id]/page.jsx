@@ -8,6 +8,7 @@ import Board from "./Board"
 
 
 export default async function PageBoard({ params }) {
+
   const { id } = params
  
   const queryClient = new QueryClient()
@@ -18,7 +19,7 @@ export default async function PageBoard({ params }) {
 
 
   return (
-    <div>
+    <div className="">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Board boardId={id} />
       </HydrationBoundary>

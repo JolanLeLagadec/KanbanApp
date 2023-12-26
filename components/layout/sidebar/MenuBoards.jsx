@@ -6,20 +6,17 @@ import Image from 'next/image'
 import ButtonCreateNewBoard from '@/components/ButtonCreateNewBoard'
 import Link from 'next/link'
 import { getBoards } from '@/request/boards'
+import { useQuery } from '@tanstack/react-query'
+
 
 export default function MenuBoards() {
 
   const [isActive, setIsActive] = useState(null)
-  const [boards, setBoards] = useState(null)
 
-  useEffect(() => {
-    const handleBoards = async () => {
-     const boards = await getBoards()
-     setBoards(boards)
-    }
-    handleBoards()
-  }, [])
- 
+  const { data: boards } = useQuery({
+    queryKey: ['getMenu'],
+    queryFn: () => getBoards()
+  })
 
   return (
     <div className='w-full'>

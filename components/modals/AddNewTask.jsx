@@ -18,18 +18,20 @@ import { getColumns } from '@/actions/columns'
 import { useParams } from 'next/navigation'
 import useModal from '@/hooks/useModal'
 import { toast } from 'sonner'
+import {  useMutation, useQueryClient } from '@tanstack/react-query'
 
 
 export default function AddNewTask() {
 
     const id = useParams().id
     const boardId = parseInt(id)
+    const queryClient = useQueryClient()
 
     const modal = useModal()
 
     const [subTasks, setSubtask] = useState([''])
     const [form, setForm] = useState({})
-    const [errors, setErrors] = useState({})
+    const [error, setError] = useState({})
     const [columnId, setColumnId] = useState()
     const [columns, setColumns] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -53,6 +55,21 @@ export default function AddNewTask() {
         handleGetColumns()
     }, [boardId])
 
+
+    const mutation = useMutation({
+        mutationFn: () => {
+            return fetch(`/api/tasks?columnId=${columnId}`,{
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(form)
+            })
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['getMenu']})
+        }
+    })
     const handleAddNewTask = async () => {
         let isValid = true
         const newErrors = {}
@@ -60,44 +77,21 @@ export default function AddNewTask() {
             newErrors.title = 'Title is missing'
             isValid = false
         }
-        if (form.subTasks && subTasks.some(subtask => subtask === '')) {
+        if (subTasks.some(subtask => subtask === '')) {
             newErrors.subTasks = "You can't give empty subtask";
             isValid = false
         }
-        setErrors(newErrors)
-        if (!isValid) {
-            return;
+        setError(newErrors)
+        if (isValid) {
+           mutation.mutate()
         }
-        try {
-            setIsLoading(true)
-            const res = await fetch(`/api/tasks?columnId=${columnId}`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json'
-                    },
-                    body: JSON.stringify(form)
-                })
-            const newTask = await res.json()
-            if (newTask) {
-                toast.success('Task create with success.')
-            }
-        } catch (e) {
-            console.error(e)
-            toast.error('Fields missing, try again')
-
-        } finally {
-            setIsLoading(false)
-            modal.onClose('createTask')
-
-        }
+       
     }
+
 
     const addSubtask = () => {
         setSubtask([...subTasks, ''])
     }
-
-
     const handleChangeValue = (index, event) => {
         const newSubtask = [...subTasks]
         newSubtask[index] = event.target.value
@@ -106,7 +100,6 @@ export default function AddNewTask() {
             ...form,
             subTasks: newSubtask
         })
-
     }
     const deleteSubtask = (i) => {
         const newSubtasks = [...subTasks]
@@ -126,6 +119,7 @@ export default function AddNewTask() {
                         placeholder='e.g Web design'
                         className="dark:bg-neutral-700 text-black border-gray-300  focus:ring-mainPurple dark:border-neutral-600 dark:focus-visible:ring-offset-0 dark:text-white "
                     />
+                    <span className='text-md text-red-500'>{error.title}</span>
                 </div>
                 <div className='flex flex-col gap-1 w-full'>
                     <label className='text-neutral-400 mt-4 dark:text-white'>Description</label>
@@ -136,6 +130,7 @@ export default function AddNewTask() {
                         placeholder="e.g it's always good to take a break. This 15 minutes break will recharge the batteries a little. "
                         className="dark:bg-neutral-700 text-black border-gray-300  focus:ring-mainPurple dark:border-neutral-600 dark:focus-visible:ring-offset-0 dark:text-white h-[7rem]"
                     />
+                   
                 </div>
             </div>
             <div className='flex flex-col gap-1 w-full'>
@@ -159,6 +154,7 @@ export default function AddNewTask() {
                         </div>
                     ))
                 }
+                <span className='text-md text-red-500 -mt-4'>{error.subTasks}</span>
                 <Button
                     onClick={addSubtask}
                     className="text-mainPurple bg-blueGrayish font-medium rounded-full mt-4 hover:bg-purple-100">

@@ -25,9 +25,7 @@ export default function Sidebar() {
     } else {
       setTheme('light')
     }
-
   }
-
 
   if (!sideBar.isOpen) {
     return null;

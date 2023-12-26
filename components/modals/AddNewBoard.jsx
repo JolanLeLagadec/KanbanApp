@@ -7,6 +7,8 @@ import { Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import useModal from '@/hooks/useModal'
 import { toast } from 'sonner'
+import { useMutation } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 
 export default function AddNewBoard() {
@@ -18,6 +20,9 @@ export default function AddNewBoard() {
 
     const router = useRouter()
     const modal = useModal()
+    const queryClient = useQueryClient()
+
+
     
     const createNewBoard = async () => {
         setIsLoading(true)
@@ -33,12 +38,14 @@ export default function AddNewBoard() {
             isValid = false
         }
         setErrorMessages(newErrors)
-        if(!isValid){
-            setIsLoading(false)
-            return
+        if(isValid){
+            mutation.mutate(data)
         }
-        try {
-            const res = await fetch('/api/boards',
+       
+    }
+    const mutation = useMutation({
+        mutationFn: (data) => {
+            return fetch('/api/boards',
            {
                 method: 'POST',
                 headers: {
@@ -46,19 +53,21 @@ export default function AddNewBoard() {
                 },
                 body: JSON.stringify(data),      
             })
-           
-            const board = await res.json()
+        },
+        onSuccess: (res) => {
+            const board =  res.json()
+            queryClient.invalidateQueries({queryKey: ['getMenu']})
             router.push(`/boards/${board.id}`)
             modal.onClose('createBoard')
             toast.success(`The board has been successfully created`)
             setIsLoading(false)
-
-        }catch(e){
-            setIsLoading(false)
+        },
+        onError: (e) => {
+            modal.onClose('createBoard')
+            toast.error('An error occured while creating the board')
             console.log(e)
-        }    
-    }
-
+        }
+    })
     const addColumns = () => {
         setColumns(columns.concat(['']))
     }

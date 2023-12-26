@@ -8,7 +8,10 @@ export async function POST(req) {
 
   const data = await req.json();
   const { title, description, subTasks } = data;
-
+  
+  if(!title){
+    return Response.json('Title is missing')
+  }
 
   try {
     const newTask = await db.task.create({

@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef } from 'react'
+import React, {  useRef } from 'react'
 import { Button } from './ui/button'
 import useModal from '@/hooks/useModal'
 import { Plus } from 'lucide-react'
