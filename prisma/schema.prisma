@@ -41,7 +41,7 @@ model Task {
   updatedAt DateTime @updatedAt
 
   subtask Subtask[]
-  column  Columns   @relation(fields: [columnId], references: [id])
+  column  Columns   @relation(fields: [columnId], references: [id], onDelete: Cascade)
 }
 
 model Subtask {

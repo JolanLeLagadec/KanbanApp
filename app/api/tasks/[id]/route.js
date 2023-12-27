@@ -1,16 +1,16 @@
 import db from "@/lib/db/db";
 
-export async function DELETE(req, { params}) {
+export async function DELETE(req, { params }) {
   const { id } = params;
   const taskId = parseInt(id);
-  console.log('on est là', taskId)
+
   try {
     const res = await db.task.delete({
       where: {
         id: taskId,
       },
     });
-    console.log(res)
+   
     return Response.json({ status: 200 });
   } catch (e) {
     return Response.json({ error: e.message });
@@ -27,7 +27,7 @@ export async function GET(req, { params }) {
       include: {
         subtask: true,
       },
-    }); 
+    });
     return Response.json(task);
   } catch (e) {
     return Response.json({ error: e.message });
@@ -36,29 +36,28 @@ export async function GET(req, { params }) {
 export async function PUT(req, { params }) {
   const { id } = params;
   const taskId = parseInt(id);
-  const {columnId, subtasks } = await req.json()
-console.log("on y est")
+
+  const { columnId, isDone } = await req.json();
+
   try {
-    const newTask = await db.task.update({
+    const taskUpdated = await db.task.update({
       where: {
         id: taskId,
       },
-    data: {
-      columnId,
-      subtask: {
-        updateMany: {
-          where: {
-            id: {in: subtasks}
-          },
-          data: {
-            done: true
-          }
-        }
-      }
-    }
-    }); 
-    console.log('ici new task', newTask)
-    return Response.json(newTask);
+      data: {
+        columnId,
+        subtask: {
+          updateMany: Object.entries(isDone).map(([subTaskId, done]) => ({
+            where: { id: parseInt(subTaskId) },
+            data: {
+              done: done,
+            },
+          })),
+        },
+      },
+    });
+   
+    return Response.json(taskUpdated);
   } catch (e) {
     return Response.json({ error: e.message });
   }

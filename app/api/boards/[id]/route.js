@@ -24,14 +24,17 @@ export async function DELETE(req, {params}){
 
   const { id } = params
   const boardId = parseInt(id)
+
   try {
-    await db.board.delete({
+   const board =  await db.board.delete({
       where: {
         id: boardId
       }
     })
+
     return Response.json({status: 200})
   }catch(e){
+    console.error('Error deleting board:', e.message)
     return Response.json({error: e.message})
   }
 }

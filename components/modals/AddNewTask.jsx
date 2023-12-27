@@ -15,10 +15,10 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { getColumns } from '@/actions/columns'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import useModal from '@/hooks/useModal'
 import { toast } from 'sonner'
-import {  useMutation, useQueryClient } from '@tanstack/react-query'
+import {  useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 
 export default function AddNewTask() {
@@ -34,8 +34,8 @@ export default function AddNewTask() {
     const [error, setError] = useState({})
     const [columnId, setColumnId] = useState()
     const [columns, setColumns] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
-
+    const path = usePathname()
+    
     const handleChangeFormValue = (e) => {
         setForm({
             ...form,
@@ -43,17 +43,17 @@ export default function AddNewTask() {
         })
     }
 
+    const { data } = useQuery({
+        queryKey: ['getColumns'],
+        queryFn: () => getColumns(boardId),
+        enabled: modal.modals.createTask
+    })
+
     useEffect(() => {
-        const handleGetColumns = async () => {
-            try {
-                const columns = await getColumns(boardId)
-                setColumns(columns)
-            } catch (e) {
-                console.error(e)
-            }
-        }
-        handleGetColumns()
-    }, [boardId])
+       if(data){
+        setColumns(data)
+       }
+    }, [data])
 
 
     const mutation = useMutation({
@@ -68,6 +68,10 @@ export default function AddNewTask() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['getMenu']})
+            queryClient.invalidateQueries({queryKey: ['board', id]})
+            toast.success('Task added')
+            setForm({})
+            modal.onClose('createTask')
         }
     })
     const handleAddNewTask = async () => {
@@ -81,13 +85,15 @@ export default function AddNewTask() {
             newErrors.subTasks = "You can't give empty subtask";
             isValid = false
         }
+        if(!columnId){
+            newErrors.column = "You have to specify a column"
+            isValid = false
+        }
         setError(newErrors)
         if (isValid) {
            mutation.mutate()
-        }
-       
+        } 
     }
-
 
     const addSubtask = () => {
         setSubtask([...subTasks, ''])
@@ -179,6 +185,7 @@ export default function AddNewTask() {
                             </SelectGroup>
                         </SelectContent>
                     </Select>
+                    <span className='text-md text-red-500'>{error.column}</span>
                 </div>
             </div>
         </>

@@ -12,7 +12,7 @@ export default function DeleteTask() {
     const queryClient = useQueryClient()
   
     const { id } = params
-    console.log(modal.taskId)
+    
   
     const mutation = useMutation({
         mutationFn: () => {

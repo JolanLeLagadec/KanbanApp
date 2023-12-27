@@ -54,8 +54,8 @@ export default function AddNewBoard() {
                 body: JSON.stringify(data),      
             })
         },
-        onSuccess: (res) => {
-            const board =  res.json()
+        onSuccess: async (res) => {
+            const board =  await res.json()
             queryClient.invalidateQueries({queryKey: ['getMenu']})
             router.push(`/boards/${board.id}`)
             modal.onClose('createBoard')

@@ -2,17 +2,44 @@
 
 
 import { getBoard } from '@/actions/boards'
-import { useQuery } from '@tanstack/react-query'
-import React, { useEffect, useRef } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import React, { useEffect, useRef, useState } from 'react'
 import Column from './Column'
+import { useParams } from 'next/navigation'
+import { addColumn } from '@/actions/columns'
+import { Input } from '@/components/ui/input'
+import {  Plus } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
 
 export default function Board({ boardId }) {
+
+    const queryClient = useQueryClient()
+    const [columnName, setColumnName] = useState()
+    const [isOpen, setIsOpen] = useState(false)
 
     const { data } = useQuery({
         queryKey: ['board', boardId],
         queryFn: () => getBoard(boardId)
     })
+
     const ref = useRef(null);
+    const { id } =  useParams()
+    const mutation = useMutation({
+        mutationFn: () => addColumn(id, columnName),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['board', id]})
+            queryClient.invalidateQueries({queryKey: ['getColumns']})
+            setColumnName('')
+            setIsOpen(false)
+            toast.success('Column created with success')
+        }
+    })
+    
+    const handleCreateColumn = () => {
+        mutation.mutate()
+    }
+
 
     useEffect(() => {
         const div = ref.current;
@@ -66,9 +93,36 @@ export default function Board({ boardId }) {
                         </div>
                     ))
                 }
-                <button className='h-full bg-white dark:bg-neutral-800 rounded-lg px-4'>
-                    <h1 className='text-xl font-semibold text-neutral-600 dark:text-neutral-100'><span>+</span>Create new column</h1>
+                {
+                    isOpen ? 
+
+                    <div className='bg-lightGray dark:bg-neutral-800 flex flex-col justify-center p-4 rounded-lg relative gap-1'>
+                        <Plus
+                        onClick={() => setIsOpen(false)}
+                        className='w-5 h-4 fill-secondPurple rotate-45 absolute top-5 right-4 cursor-pointer'
+                         />
+                        <span className='text-neutral-500'>Add a new column</span>
+                        <Input
+                        className='focus-visible:ring-offset-0 focus-visible:ring-0 ring-gray-400'
+                        onChange={(e) => setColumnName(e.target.value) }
+                         />
+                         {
+                            columnName && 
+                            <Button
+                            onClick={handleCreateColumn}
+                            variant='ghost'
+                            className="w-4 dark:text-neutral-400 uppercase tracking-widest flex justify-center items-center"
+                             >
+                           ok
+                           </Button>
+                         }  
+                    </div> :      
+                <button
+                onClick={() => setIsOpen(true)} 
+                className='h-full min-h-[5rem] bg-white dark:bg-neutral-800 rounded-lg px-4 hover:opacity-80'>
+                    <h1 className='text-xl font-semibold text-neutral-600 dark:text-neutral-100 '><span>+</span>Create new column</h1>
                 </button>
+                }
             </div>
         </div>
     )

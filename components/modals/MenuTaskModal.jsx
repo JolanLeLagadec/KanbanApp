@@ -8,6 +8,9 @@ import useModal from '@/hooks/useModal'
 import { Delete, Edit2, MoreHorizontal } from 'lucide-react'
 
 export default function MenuTaskModal({ onEdit }) {
+    const handleEdit = () => {
+        onEdit()
+    }
     const modal = useModal()
     return (
         <div className='lg:mr-6 mt-2'>
@@ -22,7 +25,7 @@ export default function MenuTaskModal({ onEdit }) {
                     <DropdownMenuContent>
                             <DropdownMenuItem className="cursor-pointer">
                                 <button
-                                onClick={onEdit} 
+                                onClick={handleEdit} 
                                 className='flex gap-2 items-center'>
                                 <Edit2 className="mr-2 h-4 w-4" />
                                 <span>Edit task</span>

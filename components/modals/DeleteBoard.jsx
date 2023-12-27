@@ -1,6 +1,6 @@
 'use client'
 import useModal from '@/hooks/useModal'
-import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {  useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 import { Button } from '../ui/button'
@@ -28,11 +28,15 @@ export default function DeleteBoard() {
                 }
             )
         },
-        onSuccess: () => {
+        onSuccess: (res) => {
+            if(!res.ok){
+                throw new Error('Error while deleting, try again')
+            }
             queryClient.invalidateQueries({ queryKey: ['getMenu'] })
             modal.onClose('deleteBoard')
             toast.success('Board successfully deleted')
             router.push('/boards')
+           
         },
         onError: (error) => {
             console.error(error)
