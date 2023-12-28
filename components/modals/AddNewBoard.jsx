@@ -17,16 +17,21 @@ export default function AddNewBoard() {
     const [name, setName] = useState('')
     const [error, setErrorMessages] = useState({})
     const [isLoading, setIsLoading] = useState(false)
+    const [color, setColor] = useState([])
+    
+    const handleChangeColor = (e, index) => {
+        const newColors = [...color]
+        newColors[index] = e.target.value
+        setColor(newColors)    
+    }
 
     const router = useRouter()
     const modal = useModal()
     const queryClient = useQueryClient()
 
-
-    
     const createNewBoard = async () => {
         setIsLoading(true)
-        const data = {name, columns}
+        const data = {name, columns, color}
         let isValid = true
         const newErrors = {nameError: '', columnError: ''}
         if(!data.name){
@@ -41,7 +46,6 @@ export default function AddNewBoard() {
         if(isValid){
             mutation.mutate(data)
         }
-       
     }
     const mutation = useMutation({
         mutationFn: (data) => {
@@ -111,9 +115,17 @@ export default function AddNewBoard() {
                                 placeholder='e.g Web design'
                                 className="dark:bg-neutral-700 text-black border-gray-300  focus:ring-mainPurple dark:border-neutral-600 dark:focus-visible:ring-offset-0 dark:text-white"
                             />
+                            <div className='flex flex-col items-center gap-1'>
+                            <Input
+                            onChange={(e) => handleChangeColor(e, index) }
+                            type='color'
+                            value={color[index]}
+                            className='w-18 cursor-pointer rounded-full'
+                             />
+                            </div>
+                            
                             <button>
                                 <Plus
-                                
                                  onClick={() => deleteColumn(index)}
                                  color='#B6BBC4' width={44} height={32} className='rotate-45' />
                             </button>

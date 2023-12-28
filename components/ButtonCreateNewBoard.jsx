@@ -4,10 +4,6 @@ import Image from 'next/image'
 import { Plus } from 'lucide-react'
 import useModal from '@/hooks/useModal'
 
-// Au click sur le bouton on envoie à notre hook la valeur true pour un nom donné
-// L'idée ensuite c'est que le composant modale soit rendue pour ceux dont le name est true
-
-
 
 export default function ButtonCreateNewBoard() {
   const modal = useModal()

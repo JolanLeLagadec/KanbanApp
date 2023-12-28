@@ -17,6 +17,8 @@ export default function Board({ boardId }) {
     const queryClient = useQueryClient()
     const [columnName, setColumnName] = useState()
     const [isOpen, setIsOpen] = useState(false)
+    const [color, setColor] = useState('#635FC7')
+   
 
     const { data } = useQuery({
         queryKey: ['board', boardId],
@@ -26,7 +28,7 @@ export default function Board({ boardId }) {
     const ref = useRef(null);
     const { id } =  useParams()
     const mutation = useMutation({
-        mutationFn: () => addColumn(id, columnName),
+        mutationFn: () => addColumn(id, columnName, color),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['board', id]})
             queryClient.invalidateQueries({queryKey: ['getColumns']})
@@ -95,7 +97,6 @@ export default function Board({ boardId }) {
                 }
                 {
                     isOpen ? 
-
                     <div className='bg-lightGray dark:bg-neutral-800 flex flex-col justify-center p-4 rounded-lg relative gap-1'>
                         <Plus
                         onClick={() => setIsOpen(false)}
@@ -106,6 +107,16 @@ export default function Board({ boardId }) {
                         className='focus-visible:ring-offset-0 focus-visible:ring-0 ring-gray-400'
                         onChange={(e) => setColumnName(e.target.value) }
                          />
+                         <div className='flex items-center gap-2'>
+                        <span className='text-md font-light'>Pick a color</span>
+                         <Input
+                            onChange={(e) => setColor(e.target.value) }
+                            type='color'
+                            value={color}
+                            className='w-12 cursor-pointer rounded-full border-none focus-visible:ring-offset-0 focus-visible:ring-0'
+                             />
+                         </div>
+                        
                          {
                             columnName && 
                             <Button

@@ -3,7 +3,7 @@ import { currentUser } from "@clerk/nextjs";
 
 export async function POST(req) {
   const data = await req.json();
-  const { name, columns } = data;
+  const { name, columns, color } = data;
 
   try {
     const user = await currentUser();
@@ -19,7 +19,7 @@ export async function POST(req) {
         name,
         column: {
           createMany: {
-            data: columns.map((column) => ({ name: column })),
+            data: columns.map((column, i) => ({ name: column, color: color[i]})),
           },
         },
       },
@@ -32,9 +32,10 @@ export async function POST(req) {
 }
 
 export async function GET() {
-
+  const user = await currentUser();
 try {
   const boards = await db.board.findMany({
+    where: {userId: user.id},
     include: {
       column: {
         include: {

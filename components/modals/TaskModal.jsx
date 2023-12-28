@@ -29,7 +29,7 @@ export default function Taskmodal() {
 
     const queryClient = useQueryClient()
     const { id } = useParams()
-    console.log(id)
+   
     const boardId = parseInt(id)
     const path = usePathname()
 
@@ -40,7 +40,8 @@ export default function Taskmodal() {
     const [isNewSubTask, setIsNewSubtask] = useState()
     const [newSubTask, setNewSubTask] = useState('')
 
-    console.log(newSubTask)
+
+    console.log(isDone)
 
 
     const subTaskMutation = useMutation({
@@ -57,16 +58,11 @@ export default function Taskmodal() {
         }
     })
 
-    // Récupérer l'id des subtasks
-    // Regarder si l'id figure dans le tableau isDone, si oui on update task/subtask à cet id
-
-    // Update le columnId
-
-   
 
     useEffect(() => {
         setNewTask({ columnId, isDone })
     }, [columnId, isDone])
+
     useEffect(() => {
         const handleGetColumns = async () => {
             if (path === '/boards') {
@@ -102,7 +98,7 @@ export default function Taskmodal() {
         onSuccess:  () => {
             queryClient.invalidateQueries({queryKey: ['board', id]})
             
-            toast.success('Task update with success')
+            toast.success('Task updated with success')
             modal.onClose('seeTask')
         },
         onError: () => {
@@ -120,9 +116,7 @@ export default function Taskmodal() {
 
     useEffect(() => {
         setColumnId(data?.columnId)
-        if (data && data.subtask) {
-            // Initialiser isDone avec les sous-tâches déjà "faites"
-            
+        if (data && data.subtask) {        
             const subTaskDone = {}
             data.subtask.forEach((subT) => {
                 subTaskDone[parseInt(subT.id)] = subT.done
@@ -162,7 +156,7 @@ export default function Taskmodal() {
                 <div className='flex flex-col justify-center gap-4 w-full'>
                     <h1 className=' text-sm'><span>
                         {data?.subtask.length > 0 ? (
-                            <>Subtasks {isDone.length} of {data?.subtask.length}</>
+                            <>Subtasks {Object.values(isDone).filter(value => value).length} of {data?.subtask.length}</>
                         ) : (
                             'No subtask'
                         )}
@@ -216,7 +210,7 @@ export default function Taskmodal() {
                                 <SelectContent >
                                     <SelectGroup>
                                         {
-                                            columns.length > 0 &&
+                                            columns?.length > 0 &&
                                             columns.map((column) => (
                                                 <div key={column.id}>
                                                     <SelectItem value={column.id}>{column.name}</SelectItem>

@@ -1,4 +1,5 @@
 import db from "@/lib/db/db";
+import { currentUser } from "@clerk/nextjs";
 
 export async function GET(req, { params }) {
   const { id } = params;
@@ -6,11 +7,13 @@ export async function GET(req, { params }) {
     return Response.json("The request failed", { status: 400 });
   }
   const boardId = parseInt(id);
+  const user = await currentUser()
 
   try {
     const board = await db.board.findUnique({
       where: {
-        id: boardId ,
+          id: boardId,
+          userId: user.id
       },
     });
     return Response.json(board);
@@ -24,11 +27,14 @@ export async function DELETE(req, {params}){
 
   const { id } = params
   const boardId = parseInt(id)
+  console.log(boardId)
+  const user = await currentUser()
 
   try {
    const board =  await db.board.delete({
       where: {
-        id: boardId
+          id: boardId,
+          userId: user.id
       }
     })
 

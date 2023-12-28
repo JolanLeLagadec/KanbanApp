@@ -8,18 +8,17 @@ export const getColumns = async (id) => {
         })
         return columns
     
- 
 }
-export const addColumn = async (id, name) => {
-
+export const addColumn = async (id, name, color) => {
         const boardId = parseInt(id)
         const columns = await db.columns.create({
             data: {
                 boardId,
-                name
+                name,
+                color
             }
         })
-        console.log(columns)
+
         return columns
         
     
