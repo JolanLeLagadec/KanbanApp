@@ -39,7 +39,7 @@ useEffect(() => {
         <ButtonBoards />
         </div>
         {
-          name && (
+          id && (
             <h1 className='hidden lg:block font-bold text-2xl pl-4'>{name}</h1>
           )
         }    
