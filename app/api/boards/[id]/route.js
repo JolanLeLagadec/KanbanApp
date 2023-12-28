@@ -27,7 +27,6 @@ export async function DELETE(req, {params}){
 
   const { id } = params
   const boardId = parseInt(id)
-  console.log(boardId)
   const user = await currentUser()
 
   try {

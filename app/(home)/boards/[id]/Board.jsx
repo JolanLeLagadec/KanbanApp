@@ -11,6 +11,8 @@ import { Input } from '@/components/ui/input'
 import {  Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
+import { DndContext, useDroppable } from '@dnd-kit/core'
+import { Droppable } from '@/components/dnd/Droppable'
 
 export default function Board({ boardId }) {
 
@@ -18,9 +20,15 @@ export default function Board({ boardId }) {
     const [columnName, setColumnName] = useState()
     const [isOpen, setIsOpen] = useState(false)
     const [color, setColor] = useState('#635FC7')
-   
+    const [taskId, setTaskId ] = useState(null)
 
-    const { data } = useQuery({
+
+    // récupérer l'id de la task à drag
+    // récupérer l'id de la column receptrice
+    // Afficher les nouvelles colonnes avant de faire la requete, via un etat local
+    // ->
+
+    const { data: initialData } = useQuery({
         queryKey: ['board', boardId],
         queryFn: () => getBoard(boardId)
     })
@@ -84,14 +92,15 @@ export default function Board({ boardId }) {
         };
     }, []);
 
-  
+      
     return (
+    
         <div ref={ref} className='p-4 w-full min-h-[91vh] overflow-hidden'>
             <div className='grid grid-flow-col auto-cols-max h-auto space-x-7 ' >
                 {
-                    data?.column.map((column) => (
+                    initialData?.column.map((column) => (     
                         <div key={column.id} className='w-[21rem]'>
-                            <Column column={column} />   
+                            <Column column={column}  />   
                         </div>
                     ))
                 }

@@ -23,3 +23,17 @@ export const addColumn = async (id, name, color) => {
         
     
 }
+export const updateColumn = async (id, name, color) => {
+        const boardId = parseInt(id)
+        const columns = await db.columns.create({
+            data: {
+                boardId,
+                name,
+                color
+            }
+        })
+
+        return columns
+        
+    
+}

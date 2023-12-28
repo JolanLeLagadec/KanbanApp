@@ -26,6 +26,7 @@ import { Input } from '../ui/input'
 export default function Taskmodal() {
     const modal = useModal()
     const taskId = modal.taskId
+    console.log(typeof taskId)
 
     const queryClient = useQueryClient()
     const { id } = useParams()
@@ -40,10 +41,6 @@ export default function Taskmodal() {
     const [isNewSubTask, setIsNewSubtask] = useState()
     const [newSubTask, setNewSubTask] = useState('')
 
-
-    console.log(isDone)
-
-
     const subTaskMutation = useMutation({
         mutationFn: () => {
            return fetch(`/api/subtask/?id=${taskId}`, {
@@ -57,8 +54,6 @@ export default function Taskmodal() {
             setNewSubTask('')
         }
     })
-
-
     useEffect(() => {
         setNewTask({ columnId, isDone })
     }, [columnId, isDone])
@@ -96,8 +91,7 @@ export default function Taskmodal() {
             })
         },
         onSuccess:  () => {
-            queryClient.invalidateQueries({queryKey: ['board', id]})
-            
+            queryClient.invalidateQueries({queryKey: ['board', id]}) 
             toast.success('Task updated with success')
             modal.onClose('seeTask')
         },
@@ -112,8 +106,6 @@ export default function Taskmodal() {
         enabled: modal.modals.seeTask
     })
 
-
-
     useEffect(() => {
         setColumnId(data?.columnId)
         if (data && data.subtask) {        
@@ -122,7 +114,6 @@ export default function Taskmodal() {
                 subTaskDone[parseInt(subT.id)] = subT.done
             })
             setIsDone(subTaskDone)
-
         }
     }, [data]);
 
@@ -190,7 +181,6 @@ export default function Taskmodal() {
                                         size='sm'
                                         className="border-2  " ><Check className='w-4 h-4' /></Button>
                                 </div>
-
                             )
                         }
                         <Button
