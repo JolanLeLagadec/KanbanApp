@@ -37,10 +37,12 @@ export default function AddNewBoard() {
         if(!data.name){
             newErrors.nameError = 'You must have to specify a board name'
             isValid = false
+            setIsLoading(false)
         }
         if(columns.some(column => column === '')){
             newErrors.columnError = "You can't give an empty column"
             isValid = false
+            setIsLoading(false)
         }
         setErrorMessages(newErrors)
         if(isValid){
@@ -68,6 +70,7 @@ export default function AddNewBoard() {
         },
         onError: (e) => {
             modal.onClose('createBoard')
+            setIsLoading(false)
             toast.error('An error occured while creating the board')
             console.log(e)
         }

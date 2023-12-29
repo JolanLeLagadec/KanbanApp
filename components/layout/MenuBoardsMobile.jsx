@@ -39,7 +39,7 @@ export default function MenuBoardsMobile() {
     return null;
   }
   return (
-    <div className=' w-1/2 m-auto absolute mt-5 left-0 right-0 lg:hidden bg-white dark:bg-neutral-800 min-w-[400px] rounded-lg py-4'>
+    <div className=' w-1/2 m-auto absolute mt-5 left-0 right-0 lg:hidden bg-white dark:bg-neutral-800 min-w-[400px] rounded-lg py-4 z-50'>
       <h1 className='text-md text-neutral-400 tracking-widest uppercase pl-6'>all boards</h1>
       <div className='flex flex-col items-start gap-3 text-white mt-7'>
       {
