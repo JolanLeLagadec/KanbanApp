@@ -11,8 +11,6 @@ import { Input } from '@/components/ui/input'
 import {  Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
-import { DndContext, useDroppable } from '@dnd-kit/core'
-import { Droppable } from '@/components/dnd/Droppable'
 
 export default function Board({ boardId }) {
 
@@ -20,13 +18,6 @@ export default function Board({ boardId }) {
     const [columnName, setColumnName] = useState()
     const [isOpen, setIsOpen] = useState(false)
     const [color, setColor] = useState('#635FC7')
-    const [taskId, setTaskId ] = useState(null)
-
-
-    // récupérer l'id de la task à drag
-    // récupérer l'id de la column receptrice
-    // Afficher les nouvelles colonnes avant de faire la requete, via un etat local
-    // ->
 
     const { data: initialData } = useQuery({
         queryKey: ['board', boardId],
@@ -50,52 +41,9 @@ export default function Board({ boardId }) {
         mutation.mutate()
     }
 
-
-    useEffect(() => {
-        const div = ref.current;
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-
-        const mouseDownHandler = (e) => {
-            isDown = true;
-            startX = e.pageX - div.offsetLeft;
-            scrollLeft = div.scrollLeft;
-        };
-
-        const mouseLeaveHandler = () => {
-            isDown = false;
-        };
-
-        const mouseUpHandler = () => {
-            isDown = false;
-        };
-
-        const mouseMoveHandler = (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - div.offsetLeft;
-            const walk = (x - startX) * 2; // Multiplier for sensitivity
-            div.scrollLeft = scrollLeft - walk;
-        };
-
-        div.addEventListener('mousedown', mouseDownHandler);
-        div.addEventListener('mouseleave', mouseLeaveHandler);
-        div.addEventListener('mouseup', mouseUpHandler);
-        div.addEventListener('mousemove', mouseMoveHandler);
-
-        return () => {
-            div.removeEventListener('mousedown', mouseDownHandler);
-            div.removeEventListener('mouseleave', mouseLeaveHandler);
-            div.removeEventListener('mouseup', mouseUpHandler);
-            div.removeEventListener('mousemove', mouseMoveHandler);
-        };
-    }, []);
-
-      
     return (
     
-        <div ref={ref} className='p-4 w-full min-h-[91vh] overflow-hidden'>
+        <div className='p-6 w-full min-h-[91vh] overflow-x-auto'>
             <div className='grid grid-flow-col auto-cols-max h-auto space-x-7 ' >
                 {
                     initialData?.column.map((column) => (     
@@ -124,8 +72,7 @@ export default function Board({ boardId }) {
                             value={color}
                             className='w-12 cursor-pointer rounded-full border-none focus-visible:ring-offset-0 focus-visible:ring-0'
                              />
-                         </div>
-                        
+                         </div>                       
                          {
                             columnName && 
                             <Button

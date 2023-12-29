@@ -22,7 +22,7 @@ export default async function Home() {
               </div>
           </div>
           <span className="sr-only">Kanban App</span>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
+        <nav className="hidden md:flex ml-auto gap-4 sm:gap-6">
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
             Features
           </Link>
@@ -44,15 +44,15 @@ export default async function Home() {
           <div className="container px-4 md:px-6 h-[13rem]">
             <div className=" space-y-4 text-center h-full">
               <div className="space-y-8 flex flex-col items-center h-full">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                <h1 className=" font-bold tracking-tighter text-5xl lg:text-6xl/none">
                   Manage your projects efficiently
                 </h1>
-                <p className="mx-auto w-[30rem] text-gray-500 md:text-2xl dark:text-gray-400 ">
+                <p className="mx-auto w-[30rem] text-gray-500 text-2xl dark:text-gray-400 ">
                   Organize your tasks, collaborate with your team, and get things done with our Kanban app.
                 </p>
               </div>   
               
-              <Link href='/boards'><Button size='lg' className="bg-mainPurple hover:bg-secondPurple text-white text-lg ">Get started</Button></Link>
+              <Link href='/boards'><Button size='lg' className="bg-mainPurple hover:opacity-70 hover:bg-secondPurple text-lg mt-8">Get started</Button></Link>
             </div>
           </div>
         </section>

@@ -27,7 +27,7 @@ export default function Tasks({ task }) {
          onClick={handleClick}
          className='w-full bg-white dark:bg-neutral-800 mt-7 rounded-xl cursor-pointer hover:opacity-80'>
             <div className='p-4  py-6 flex flex-col justify-center items-start'>
-                <h1>{task.name}</h1>
+                <h1 className='font-bold'>{task.name}</h1>
                {
                     isLoading ? 
                     <Skeleton className='w-20 h-3 bg-neutral-400 mt-2' />:

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+
 import Task from './Task'
+
 
 
 export default function Column({ column }) {
@@ -14,9 +15,9 @@ export default function Column({ column }) {
       <h1 className='text-lg uppercase tracking-widest font-light text-neutral-500 dark:text-neutral-300'>{column.name}</h1>
       </div> 
       {
-        tasks.map((task) => ( 
+        tasks.map((task, index) => ( 
           <div  key={task.id} className='grid grid-flow-row '>
-            <Task  task={task} />
+            <Task  task={task} index={index} />
           </div>
         ))
       }
