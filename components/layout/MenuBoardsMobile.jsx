@@ -48,7 +48,7 @@ export default function MenuBoardsMobile() {
               href={`/boards/${board.id}`}
               key={board.id}
               onClick={() => setIsActive(board.id)}
-              className={`${isActive === board.id ? 'bg-mainPurple text-white' : 'text-neutral-400'}  rounded-r-full pl-6 py-3 w-[95%] font-semibold flex gap-4 items-center dark:hover:bg-neutral-100 transition-colors hover:text-mainPurple hover:bg-neutral-200 `}>
+              className={`${isActive === board.id ? 'bg-mainPurple text-white' : 'text-neutral-400'} rounded-r-full pl-6 py-3 w-[95%] font-semibold flex gap-4 items-center dark:hover:bg-neutral-100 transition-colors hover:text-mainPurple hover:bg-neutral-200 `}>
               <Image
                 src={iconBoard}
                 width={20}

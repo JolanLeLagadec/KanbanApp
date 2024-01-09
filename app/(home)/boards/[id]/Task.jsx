@@ -1,14 +1,12 @@
 'use client'
-import { Draggable } from '@/components/dnd/Draggable'
+
 import { Skeleton } from '@/components/ui/skeleton'
 import useModal from '@/hooks/useModal'
 import { getTask } from '@/request/tasks'
-import { useDraggable } from '@dnd-kit/core'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 
 export default function Tasks({ task }) {
-
 
     const modal = useModal()
     const handleClick = () => {
