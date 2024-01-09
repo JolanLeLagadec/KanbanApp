@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
       <html lang="en">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="white"
         >
           <body className={inter.className}>
             <Provider>

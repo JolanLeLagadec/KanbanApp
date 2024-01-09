@@ -23,7 +23,7 @@ const handleClose = () => {
     return null
   }
   return (
-    <div className='fixed bg-neutral-800 h-full  bg-opacity-70 w-full flex justify-center items-center z-50 overflow-x-hidden overflow-y-auto'>
+    <div className='fixed bg-neutral-800 h-full bg-opacity-70 w-full flex justify-center items-center z-50 overflow-x-hidden overflow-y-auto'>
         <div ref={modalRef} className='w-3/4 sm:w-1/2 bg-white  max-w-4xl rounded-lg shadow-lg relative dark:bg-neutral-700 h-fit overflow-y-auto max-h-[95vh]'>
           <Plus
            onClick={handleClose}
